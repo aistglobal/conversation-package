@@ -1,0 +1,19 @@
+{
+    "name": "aistglobal/conversation",
+    "description": "Conversation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jirayr",
+            "email": "jirayrgrigoryan85@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Aistglobal\\Conversation\\": "src/"
+        }
+    }
+}
