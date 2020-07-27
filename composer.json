@@ -15,5 +15,12 @@
         "psr-4": {
             "Aistglobal\\Conversation\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Aistglobal\\Conversation\\ConversationServiceProvider"
+            ]
+        }
     }
 }
