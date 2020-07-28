@@ -18,6 +18,7 @@ class RetrieveUserConversationsController extends Controller
         $this->conversationRepository = $conversationRepository;
     }
 
+
     public function __invoke(Request $request, int $user_id): JsonResource
     {
         $conversations = $this->conversationRepository->findByOwner($user_id);
