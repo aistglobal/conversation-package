@@ -31,7 +31,6 @@ class EloquentConversationRepository implements ConversationRepository
         return $conversation;
     }
 
-
     public function findByOwner(int $owner_id, int $page = 1, int $per_page = 15): LengthAwarePaginator
     {
         return Conversation::byOwner($owner_id)->paginate($per_page, ['*'], 'page', $page);
