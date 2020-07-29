@@ -2,6 +2,8 @@
 
 namespace Aistglobal\Conversation;
 
+use Aistglobal\Conversation\Models\Conversation;
+use aistglobal\Conversation\Policies\ConversationPolicy;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 use Aistglobal\Conversation\Exceptions\Handler;
@@ -12,7 +14,6 @@ use Aistglobal\Conversation\Repositories\Message\MessageRepository;
 
 class ConversationServiceProvider extends ServiceProvider
 {
-
     public function boot()
     {
         \App::singleton(

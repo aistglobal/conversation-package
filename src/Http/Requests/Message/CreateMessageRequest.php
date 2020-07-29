@@ -9,11 +9,6 @@ class CreateMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'author_id' => [
-                'required',
-                'integer',
-            ],
-
             'peer_id' => [
                 'required',
                 'integer',

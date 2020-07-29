@@ -2,6 +2,8 @@
 
 namespace Aistglobal\Conversation\Http\Controllers\Conversation;
 
+use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
+use Aistglobal\Conversation\Models\Conversation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,9 +20,12 @@ class RetrieveUserConversationsController extends Controller
         $this->conversationRepository = $conversationRepository;
     }
 
-
     public function __invoke(Request $request, int $user_id): JsonResource
     {
+        if($user_id !== $request->user()->id){
+            throw new UnauthorisedAPIException('Unauthorised');
+        }
+
         $conversations = $this->conversationRepository->findByOwner($user_id);
 
         return ConversationResource::collection($conversations);

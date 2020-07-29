@@ -32,11 +32,10 @@ class CreateMessageController extends Controller
     public function __invoke(CreateMessageRequest $request): JsonResource
     {
         $data = $request->only([
-            'text',
-            'file_name',
-            'peer_id',
-            'author_id',
-        ]);
+                'text',
+                'file_name',
+                'peer_id',
+            ]) + ['author_id' => $request->user()->id];
 
         $message = $this->createMessageForAuthor($data);
 
@@ -54,9 +53,7 @@ class CreateMessageController extends Controller
 
         $data['read_at'] = Carbon::now();
 
-        $message = $this->createMessage($data + ['conversation_id' => $conversation->id]);
-
-        return $message;
+        return $this->createMessage($data + ['conversation_id' => $conversation->id]);
     }
 
     public function createMessageForPeer(array $data): void
@@ -66,7 +63,7 @@ class CreateMessageController extends Controller
             'peer_id' => $data['author_id'],
         ]);
 
-        $message = $this->createMessage($data + ['conversation_id' => $conversation->id]);
+        $this->createMessage($data + ['conversation_id' => $conversation->id]);
     }
 
     public function retrieveConversation(array $data): Conversation
