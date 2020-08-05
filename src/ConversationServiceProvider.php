@@ -2,8 +2,6 @@
 
 namespace Aistglobal\Conversation;
 
-use Aistglobal\Conversation\Models\Conversation;
-use aistglobal\Conversation\Policies\ConversationPolicy;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\ServiceProvider;
 use Aistglobal\Conversation\Exceptions\Handler;
@@ -26,16 +24,20 @@ class ConversationServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $this->loadViewsFrom(__DIR__ . '/views', 'conversation');
 
         $this->mergeConfigFrom(
-            __DIR__.'/config/conversation.php',
+            __DIR__ . '/config/conversation.php',
             'conversation'
         );
 
         $this->publishes([
-            __DIR__.'/config/conversation.php' => config_path('conversation.php'),
+            __DIR__ . '/config/conversation.php' => config_path('conversation.php'),
+
         ]);
+
     }
 
     public function register()

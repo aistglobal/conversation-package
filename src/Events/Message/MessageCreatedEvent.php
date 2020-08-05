@@ -26,18 +26,25 @@ class MessageCreatedEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'message_created';
+        $owner_id = $this->retrieveConversationByID($this->message->conversation_id);
+
+        return 'message_created_' . $owner_id;
     }
 
     public function broadcastWith()
     {
-        $conversationRepository = new EloquentConversationRepository();
-        $conversation = $conversationRepository->findOneByID($this->message->conversation_id);
-
         return [
             'message_id' => $this->message->id,
             'conversation_id' => $this->message->conversation_id,
-            'conversation_owner_id' => $conversation->owner_id
+            'conversation_owner_id' => $this->retrieveConversationByID($this->message->conversation_id)
         ];
+    }
+
+    public function retrieveConversationByID(int $conversation_id): int
+    {
+        $conversationRepository = new EloquentConversationRepository();
+        $conversation = $conversationRepository->findOneByID($this->message->conversation_id);
+
+        return $conversation->owner_id;
     }
 }

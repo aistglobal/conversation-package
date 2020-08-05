@@ -4,6 +4,8 @@ namespace Aistglobal\Conversation\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Conversation extends Model
@@ -27,8 +29,18 @@ class Conversation extends Model
         return $builder->where('owner_id', $owner_id)->orderBy('id', config('conversation.conversations_order'));
     }
 
-    public function user()
+    public function scopeByPeer(Builder $builder, int $peer_id): Builder
+    {
+        return $builder->where('peer_id', $peer_id);
+    }
+
+    public function user(): BelongsTo
     {
         return $this->belongsTo(config('conversation.users'), 'peer_id');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
     }
 }

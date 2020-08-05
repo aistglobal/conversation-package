@@ -10,4 +10,7 @@ return [
 
     // ORDER MESSAGES BY ID
     'messages_order' => 'ASC',
+
+    //Conversation url
+    'conversation_url' => 'conversation'
 ];

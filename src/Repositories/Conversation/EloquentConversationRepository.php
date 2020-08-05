@@ -2,6 +2,7 @@
 
 namespace Aistglobal\Conversation\Repositories\Conversation;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Aistglobal\Conversation\Models\Conversation;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -34,5 +35,10 @@ class EloquentConversationRepository implements ConversationRepository
     public function findByOwner(int $owner_id, int $page = 1, int $per_page = 15): LengthAwarePaginator
     {
         return Conversation::byOwner($owner_id)->paginate($per_page, ['*'], 'page', $page);
+    }
+
+    public function findByPeer(int $peer_id): Collection
+    {
+        return Conversation::byPeer($peer_id)->get();
     }
 }

@@ -5,6 +5,7 @@ namespace Aistglobal\Conversation\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -30,5 +31,10 @@ class Message extends Model
     public function scopeByConversationID(Builder $builder, int $conversation_id)
     {
         return $builder->where('conversation_id', $conversation_id)->orderBy('id', config('conversation.messages_order'));
+    }
+
+    public function conversation(): BelongsTo
+    {
+        return $this->belongsTo(Conversation::class);
     }
 }
