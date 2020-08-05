@@ -19,6 +19,9 @@ class RetrieveUnreadMessagesCountByPeerIDController extends Controller
 
     public function __invoke(Request $request, int $user_id): JsonResource
     {
+
+        dd(12);
+
         if ($user_id !== $request->user()->id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }

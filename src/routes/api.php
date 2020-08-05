@@ -1,5 +1,6 @@
 <?php
 
+use Aistglobal\Conversation\Http\Controllers\Group\CreateGroupController;
 use Aistglobal\Conversation\Http\Controllers\Message\MessageMarkAsReadController;
 use Aistglobal\Conversation\Http\Controllers\Message\RetrieveMessageByIDController;
 use Aistglobal\Conversation\Http\Controllers\Message\RetrieveUnreadMessagesCountByPeerIDController;
@@ -30,6 +31,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::prefix('users')->group(function () {
             Route::get('/{user_id}/conversations', RetrieveUserConversationsController::class);
             Route::get('/{user_id}/unread_messages_count', RetrieveUnreadMessagesCountByPeerIDController::class);
+        });
+
+        Route::prefix('groups')->group(function () {
+            Route::post('/', CreateGroupController::class);
         });
 
     });

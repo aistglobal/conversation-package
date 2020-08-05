@@ -14,11 +14,6 @@ class ConversationServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        \App::singleton(
-            ExceptionHandler::class,
-            Handler::class
-        );
-
         $this->app->bind(ConversationRepository::class, EloquentConversationRepository::class);
         $this->app->bind(MessageRepository::class, EloquentMessageRepository::class);
 
