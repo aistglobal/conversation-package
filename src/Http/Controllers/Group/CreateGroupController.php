@@ -2,8 +2,9 @@
 
 namespace Aistglobal\Conversation\Http\Controllers\Group;
 
-use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
+use Aistglobal\Conversation\Events\Group\GroupCreatedEvent;
 use Aistglobal\Conversation\Http\Requests\Group\CreateGroupRequest;
+use Aistglobal\Conversation\Http\Resources\GroupResource;
 use Aistglobal\Conversation\Repositories\Group\GroupRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,6 +29,10 @@ class CreateGroupController extends Controller
 
         $group = $this->groupRepository->create($data);
 
-        return $group;
+        $group->members()->sync([$request->user()->id], false);
+
+        event(new GroupCreatedEvent($group));
+
+        return GroupResource::make($group);
     }
 }

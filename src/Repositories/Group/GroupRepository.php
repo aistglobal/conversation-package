@@ -3,7 +3,8 @@
 namespace Aistglobal\Conversation\Repositories\Group;
 
 use Aistglobal\Conversation\Models\Group;
-use Illuminate\Http\Resources\Json\JsonResource;
+use Aistglobal\Conversation\Models\GroupMessage;
+use Illuminate\Support\Collection;
 
 interface GroupRepository
 {
@@ -14,4 +15,16 @@ interface GroupRepository
     public function update(int $group_id, array $data): Group;
 
     public function delete(int $group_id);
+
+    public function addMember(int $group_id, array $member_ids);
+
+    public function deleteMember(int $group_id, array $member_ids);
+
+    public function createGroupMessage(array $data): GroupMessage;
+
+    public function retrieveMembersByGroupID(int $group_id): Collection;
+
+    public function retrieveMessagesByGroupID(int $group_id): Collection;
+
+    public function retrieveGroupsBYMemberID(int $member_id): Collection;
 }

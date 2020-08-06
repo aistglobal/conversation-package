@@ -3,7 +3,6 @@
 namespace Aistglobal\Conversation\Http\Controllers\Conversation;
 
 use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
-use Aistglobal\Conversation\Models\Conversation;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

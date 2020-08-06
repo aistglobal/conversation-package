@@ -4,10 +4,10 @@
 namespace Aistglobal\Conversation\Repositories\Message;
 
 
+use Aistglobal\Conversation\Exceptions\API\NotFoundAPIException;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Aistglobal\Conversation\Models\Message;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class EloquentMessageRepository implements MessageRepository
 {
@@ -25,7 +25,7 @@ class EloquentMessageRepository implements MessageRepository
     {
         $message = Message::find($message_id);
 
-        throw_if(is_null($message), ResourceNotFoundException::class);
+        throw_if(is_null($message), NotFoundAPIException::class);
 
         return $message;
     }

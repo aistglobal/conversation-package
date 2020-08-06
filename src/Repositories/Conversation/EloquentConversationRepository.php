@@ -2,10 +2,10 @@
 
 namespace Aistglobal\Conversation\Repositories\Conversation;
 
+use Aistglobal\Conversation\Exceptions\API\NotFoundAPIException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Aistglobal\Conversation\Models\Conversation;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class EloquentConversationRepository implements ConversationRepository
 {
@@ -18,7 +18,7 @@ class EloquentConversationRepository implements ConversationRepository
     {
         $conversation = Conversation::byOwnerAndPeer($owner_id, $peer_id)->first();
 
-        throw_if(is_null($conversation), ResourceNotFoundException::class);
+        throw_if(is_null($conversation), NotFoundAPIException::class);
 
         return $conversation;
     }
@@ -27,7 +27,7 @@ class EloquentConversationRepository implements ConversationRepository
     {
         $conversation = Conversation::find($conversation_id);
 
-        throw_if(is_null($conversation), ResourceNotFoundException::class);
+        throw_if(is_null($conversation), NotFoundAPIException::class);
 
         return $conversation;
     }

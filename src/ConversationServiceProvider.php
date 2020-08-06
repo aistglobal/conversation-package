@@ -2,9 +2,9 @@
 
 namespace Aistglobal\Conversation;
 
-use Illuminate\Contracts\Debug\ExceptionHandler;
+use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
+use Aistglobal\Conversation\Repositories\Group\GroupRepository;
 use Illuminate\Support\ServiceProvider;
-use Aistglobal\Conversation\Exceptions\Handler;
 use Aistglobal\Conversation\Repositories\Conversation\ConversationRepository;
 use Aistglobal\Conversation\Repositories\Conversation\EloquentConversationRepository;
 use Aistglobal\Conversation\Repositories\Message\EloquentMessageRepository;
@@ -17,6 +17,7 @@ class ConversationServiceProvider extends ServiceProvider
 
         $this->app->bind(ConversationRepository::class, EloquentConversationRepository::class);
         $this->app->bind(MessageRepository::class, EloquentMessageRepository::class);
+        $this->app->bind(GroupRepository::class, EloquentGroupRepository::class);
 
         $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
 
