@@ -35,6 +35,7 @@ class MessageCreatedEvent implements ShouldBroadcast
     {
         return [
             'message_id' => $this->message->id,
+            'text' => $this->message->text,
             'conversation_id' => $this->message->conversation_id,
             'conversation_owner_id' => $this->retrieveConversationByID($this->message->conversation_id)
         ];
