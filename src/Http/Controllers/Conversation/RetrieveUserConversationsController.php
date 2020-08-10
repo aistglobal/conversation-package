@@ -21,11 +21,17 @@ class RetrieveUserConversationsController extends Controller
 
     public function __invoke(Request $request, int $user_id): JsonResource
     {
-        if($user_id !== $request->user()->id){
+        if ($user_id !== $request->user()->id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
-        $conversations = $this->conversationRepository->findByOwner($user_id);
+        $page = 1;
+
+        if ($request->has('page')) {
+            $page = $request->page;
+        }
+
+        $conversations = $this->conversationRepository->findByOwner($user_id, $page);
 
         return ConversationResource::collection($conversations);
     }

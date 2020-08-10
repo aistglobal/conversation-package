@@ -33,7 +33,14 @@ class RetrieveMessagesByConversationIDController extends Controller
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
-        $messages = $this->messageRepository->findByConversationID($conversation_id);
+        $page = 1;
+
+        if($request->has('page'))
+        {
+            $page = $request->page;
+        }
+
+        $messages = $this->messageRepository->findByConversationID($conversation_id, $page);
 
         return MessageResource::collection($messages);
     }

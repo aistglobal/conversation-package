@@ -13,7 +13,7 @@ interface MessageRepository
 
     public function create(array $data): Message;
 
-    public function findByConversationID(int $conversation_id): LengthAwarePaginator;
+    public function findByConversationID(int $conversation_id, int $page = 1, int $per_page = 15): LengthAwarePaginator;
 
     public function findLastByConversationID(int $conversation_id): ?Message;
 }
