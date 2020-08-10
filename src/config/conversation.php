@@ -9,7 +9,7 @@ return [
     'conversations_order' => 'ASC',
 
     // ORDER MESSAGES BY ID
-    'messages_order' => 'ASC',
+    'messages_order' => 'DESC',
 
     //Conversation url
     'conversation_url' => 'conversation'
