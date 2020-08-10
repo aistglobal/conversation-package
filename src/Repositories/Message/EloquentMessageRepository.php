@@ -40,4 +40,9 @@ class EloquentMessageRepository implements MessageRepository
 
         return $message->refresh();
     }
+
+    public function findLastByConversationID(int $conversation_id): ?Message
+    {
+        return Message::findLastByConversationID($conversation_id)->first();
+    }
 }

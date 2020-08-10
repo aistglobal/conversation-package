@@ -28,9 +28,14 @@ class Message extends Model
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d H:i:s');
     }
 
-    public function scopeByConversationID(Builder $builder, int $conversation_id)
+    public function scopeByConversationID(Builder $builder, int $conversation_id): Builder
     {
         return $builder->where('conversation_id', $conversation_id)->orderBy('id', config('conversation.messages_order'));
+    }
+
+    public function scopeFindLastByConversationID(Builder $builder, int $conversation_id): Builder
+    {
+        return $builder->where('conversation_id', $conversation_id)->orderBy('id', 'desc');
     }
 
     public function conversation(): BelongsTo
