@@ -68,10 +68,10 @@ class CreateMessageController extends Controller
 
     public function retrieveConversation(array $data): Conversation
     {
-        try {
-            $conversation = $this->conversationRepository
-                ->findByOwnerAndPeer($data['owner_id'], $data['peer_id']);
-        } catch (ResourceNotFoundException $exception) {
+        $conversation = $this->conversationRepository
+            ->findByOwnerAndPeer($data['owner_id'], $data['peer_id']);
+
+        if (is_null($conversation)) {
             $conversation = $this->conversationRepository->create($data);
         }
 

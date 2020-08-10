@@ -14,13 +14,9 @@ class EloquentConversationRepository implements ConversationRepository
         return Conversation::create($data);
     }
 
-    public function findByOwnerAndPeer(int $owner_id, int $peer_id): Conversation
+    public function findByOwnerAndPeer(int $owner_id, int $peer_id): ?Conversation
     {
-        $conversation = Conversation::byOwnerAndPeer($owner_id, $peer_id)->first();
-
-        throw_if(is_null($conversation), NotFoundAPIException::class);
-
-        return $conversation;
+        return Conversation::byOwnerAndPeer($owner_id, $peer_id)->first();
     }
 
     public function findOneByID(int $conversation_id): Conversation
