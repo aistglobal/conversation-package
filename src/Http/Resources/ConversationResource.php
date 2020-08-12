@@ -9,7 +9,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ConversationResource extends JsonResource
 {
-
     public $messageRepository;
 
     public function __construct($resource)
