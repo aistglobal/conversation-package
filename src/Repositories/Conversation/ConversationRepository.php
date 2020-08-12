@@ -14,7 +14,7 @@ interface ConversationRepository
 
     public function findByOwnerAndPeer(int $owner_id, int $peer_id): ?Conversation;
 
-    public function findByOwner(int $owner_id, int $page = 1, int $per_page = 15): LengthAwarePaginator;
+    public function findByOwner(int $owner_id, int $page = 1, int $per_page = 25): LengthAwarePaginator;
 
     public function findByPeer(int $peer_id): Collection;
 }

@@ -16,7 +16,7 @@ class EloquentMessageRepository implements MessageRepository
         return Message::create($data);
     }
 
-    public function findByConversationID(int $conversation_id, int $page = 1, int $per_page = 15): LengthAwarePaginator
+    public function findByConversationID(int $conversation_id, int $page = 1, int $per_page = 50): LengthAwarePaginator
     {
         return Message::byConversationID($conversation_id)->paginate($per_page, ['*'], 'page', $page);
     }

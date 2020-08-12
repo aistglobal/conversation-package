@@ -26,7 +26,8 @@ class Conversation extends Model
 
     public function scopeByOwner(Builder $builder, int $owner_id)
     {
-        return $builder->where('owner_id', $owner_id)->orderBy('id', config('conversation.conversations_order'));
+        return $builder->where('owner_id', $owner_id)->orderByDesc(Message::select('created_at')
+            ->whereColumn('messages.conversation_id', 'conversations.id')->latest()->take(1));
     }
 
     public function scopeByPeer(Builder $builder, int $peer_id): Builder

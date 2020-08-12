@@ -3,6 +3,7 @@
 namespace Aistglobal\Conversation\Http\Controllers\Message;
 
 use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
+use Aistglobal\Conversation\Http\Resources\ConversationResource;
 use Aistglobal\Conversation\Http\Resources\MessageResource;
 use Aistglobal\Conversation\Models\Message;
 use Aistglobal\Conversation\Repositories\Conversation\ConversationRepository;
@@ -26,20 +27,23 @@ class MessageMarkAsReadController extends Controller
         $this->conversationRepository = $conversationRepository;
     }
 
+
     public function __invoke(Request $request, int $message_id): JsonResource
     {
         $message = $this->messageRepository->markAsReadByMessageID($message_id);
 
         $this->messagePolicy($message, $request->user()->id);
 
-        return MessageResource::make($message);
+        $conversation = $this->conversationRepository->findOneByID($message->conversation_id);
+
+        return ConversationResource::make($conversation);
     }
 
     public function messagePolicy(Message $message, int $user_id)
     {
         $conversation = $this->conversationRepository->findOneByID($message->conversation_id);
 
-        if($conversation->owner_id !== $user_id){
+        if ($conversation->owner_id !== $user_id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }
     }

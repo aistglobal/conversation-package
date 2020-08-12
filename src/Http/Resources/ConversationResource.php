@@ -4,7 +4,6 @@
 namespace Aistglobal\Conversation\Http\Resources;
 
 
-use Aistglobal\Conversation\Models\Message;
 use Aistglobal\Conversation\Repositories\Message\EloquentMessageRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
