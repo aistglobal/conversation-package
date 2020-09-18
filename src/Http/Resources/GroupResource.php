@@ -8,7 +8,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupResource extends JsonResource
 {
-
     private $groupRepository;
 
     public function __construct($resource)
