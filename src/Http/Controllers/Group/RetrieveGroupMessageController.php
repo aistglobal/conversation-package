@@ -26,7 +26,14 @@ class RetrieveGroupMessageController extends Controller
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
-        $group_messages = $this->groupRepository->retrieveMessagesByGroupID($group_id);
+        $page = 1;
+
+        if($request->has('page'))
+        {
+            $page = $request->page;
+        }
+
+        $group_messages = $this->groupRepository->retrieveMessagesByGroupID($group_id, $page);
 
         return GroupMessageResource::collection($group_messages);
     }
