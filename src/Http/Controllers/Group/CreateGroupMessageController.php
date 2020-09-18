@@ -31,16 +31,21 @@ class CreateGroupMessageController extends Controller
                 'author_id' => $request->user()->id,
             ];
 
-        $group = $this->groupRepository->findOneByID($group_id);
-
-        if ($group->creator_id !== $request->user()->id) {
-            throw new UnauthorisedAPIException('Unauthorised');
-        }
+        $this->checkIfGroupMember($group_id, $request->user()->id);
 
         $message = $this->groupRepository->createGroupMessage($data);
 
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
 
         return GroupMessageResource::make($message);
+    }
+
+    public function checkIfGroupMember(int $group_id, int $auth_user_id)
+    {
+        $members = $this->groupRepository->retrieveMembersByGroupID($group_id)->pluck('id')->toArray();
+
+        if (!in_array($auth_user_id, $members)) {
+            throw new UnauthorisedAPIException('Unauthorised');
+        }
     }
 }

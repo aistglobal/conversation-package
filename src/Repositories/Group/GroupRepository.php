@@ -4,6 +4,7 @@ namespace Aistglobal\Conversation\Repositories\Group;
 
 use Aistglobal\Conversation\Models\Group;
 use Aistglobal\Conversation\Models\GroupMessage;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 interface GroupRepository
@@ -24,7 +25,7 @@ interface GroupRepository
 
     public function retrieveMembersByGroupID(int $group_id): Collection;
 
-    public function retrieveMessagesByGroupID(int $group_id): Collection;
+    public function retrieveMessagesByGroupID(int $group_id, int $page = 1, int $per_page = 50): LengthAwarePaginator;
 
     public function retrieveGroupsBYMemberID(int $member_id): Collection;
 }
