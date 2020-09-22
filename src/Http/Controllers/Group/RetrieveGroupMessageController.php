@@ -18,7 +18,6 @@ class RetrieveGroupMessageController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
-
     public function __invoke(Request $request, int $group_id)
     {
         $group = $this->groupRepository->findOneByID($group_id);
