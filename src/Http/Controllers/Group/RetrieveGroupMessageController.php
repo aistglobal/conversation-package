@@ -22,19 +22,25 @@ class RetrieveGroupMessageController extends Controller
     {
         $group = $this->groupRepository->findOneByID($group_id);
 
-        if ($group->creator_id !== $request->user()->id) {
-            throw new UnauthorisedAPIException('Unauthorised');
-        }
+        $this->checkIfGroupMember($group->id, $request->user()->id);
 
         $page = 1;
 
-        if($request->has('page'))
-        {
+        if ($request->has('page')) {
             $page = $request->page;
         }
 
         $group_messages = $this->groupRepository->retrieveMessagesByGroupID($group_id, $page);
 
         return GroupMessageResource::collection($group_messages);
+    }
+
+    public function checkIfGroupMember(int $group_id, int $auth_user_id)
+    {
+        $members = $this->groupRepository->retrieveMembersByGroupID($group_id)->pluck('id')->toArray();
+
+        if (!in_array($auth_user_id, $members)) {
+            throw new UnauthorisedAPIException('Unauthorised');
+        }
     }
 }
