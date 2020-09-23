@@ -42,7 +42,6 @@ class MessageCreatedEvent implements ShouldBroadcast
         ];
     }
 
-
     public function retrieveConversationByID(int $conversation_id): int
     {
         $conversationRepository = new EloquentConversationRepository();
