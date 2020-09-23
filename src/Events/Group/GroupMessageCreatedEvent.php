@@ -37,7 +37,7 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
     {
         return [
             'group_message_id' => $this->groupMessage->id,
-            'group_message_text' => $this->groupMessage->test,
+            'group_message_text' => $this->groupMessage->text,
             'group_id' => $this->groupMessage->group_id,
             'aa' => $this->checkAuthMember()
         ];
