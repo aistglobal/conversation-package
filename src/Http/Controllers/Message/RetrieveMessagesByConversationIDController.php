@@ -29,18 +29,23 @@ class RetrieveMessagesByConversationIDController extends Controller
     {
         $conversation = $this->conversationRepository->findOneByID($conversation_id);
 
-        if($conversation->owner_id !== $request->user()->id){
+        if ($conversation->owner_id !== $request->user()->id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
         $page = 1;
 
-        if($request->has('page'))
-        {
+        if ($request->has('page')) {
             $page = $request->page;
         }
 
-        $messages = $this->messageRepository->findByConversationID($conversation_id, $page);
+        $per_page = 50;
+
+        if ($request->has('per_page')) {
+            $per_page = $request->per_page;
+        }
+
+        $messages = $this->messageRepository->findByConversationID($conversation_id, $page, $per_page);
 
         return MessageResource::collection($messages);
     }
