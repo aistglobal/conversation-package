@@ -33,6 +33,7 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
         return 'group_message_created_' . $this->checkAuthMember();
     }
 
+
     public function broadcastWith()
     {
         return [
