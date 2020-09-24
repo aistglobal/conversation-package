@@ -30,10 +30,11 @@ class GroupResource extends JsonResource
 
     public function lastMessage(): ?array
     {
-        if($this->last_message_id){
+        if ($this->last_message_id) {
             return [
                 'id' => $this->last_message_id,
                 'text' => $this->last_message_text,
+                'file' => $this->last_message_file_name ? config('conversation.AWS_URL') . '/' . $this->last_message_file_name : null,
                 'created_at' => $this->last_message_created_at,
             ];
         }

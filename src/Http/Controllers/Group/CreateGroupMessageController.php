@@ -3,6 +3,7 @@
 namespace Aistglobal\Conversation\Http\Controllers\Group;
 
 use Aistglobal\Conversation\Events\Group\GroupMessageCreatedEvent;
+use Aistglobal\Conversation\Events\Group\MemberGroupMessageCreatedEvent;
 use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
 use Aistglobal\Conversation\Http\Requests\Group\CreateGroupMessageRequest;
 use Aistglobal\Conversation\Http\Resources\GroupMessageResource;
@@ -36,6 +37,7 @@ class CreateGroupMessageController extends Controller
         $message = $this->groupRepository->createGroupMessage($data);
 
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
+        event(new MemberGroupMessageCreatedEvent($message, $request->user()->id));
 
         return GroupMessageResource::make($message);
     }

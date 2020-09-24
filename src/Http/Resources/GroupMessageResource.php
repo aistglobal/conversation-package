@@ -16,7 +16,7 @@ class GroupMessageResource extends JsonResource
             'author_id' => $this->author_id,
             'text' => $this->text,
             'created_at' => $this->created_at,
-//            'group' => $this->recourseForGroup(),
+            'file' => $this->file_name ? config('conversation.AWS_URL') . '/' . $this->file_name : null,
             'author' => $this->author,
         ];
     }

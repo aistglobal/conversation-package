@@ -7,7 +7,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class GroupMessageCreatedEvent implements ShouldBroadcast
+class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
@@ -25,23 +25,18 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return 'group_message_created';
+        return 'user_new_message';
     }
 
     public function broadcastAs()
     {
-        return 'group_message_created_' . $this->checkAuthMember();
+        return 'user_new_message_' . $this->checkAuthMember();
     }
 
     public function broadcastWith()
     {
         return [
-            'id' => $this->groupMessage->id,
-            'text' => $this->groupMessage->text,
-            'group_id' => $this->groupMessage->group_id,
-            'author' => $this->groupMessage->author,
-            'file' => $this->groupMessage->file_name ? config('conversation.AWS_URL') . '/' . $this->groupMessage->file_name : null,
-            'created_at' => $this->groupMessage->created_at
+            'id' => $this->groupMessage->id
         ];
     }
 
@@ -50,7 +45,7 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
         $member_ids = $this->groupMessage->group->members->pluck('id')->toArray();
 
         if (in_array($this->auth_user_id, $member_ids)) {
-            return $this->groupMessage->group->id;
+            return $this->auth_user_id;
         }
 
         return null;

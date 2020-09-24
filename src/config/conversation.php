@@ -12,5 +12,7 @@ return [
     'messages_order' => 'DESC',
 
     //Conversation url
-    'conversation_url' => 'conversation'
+    'conversation_url' => 'conversation',
+
+    'AWS_URL' => ''
 ];
