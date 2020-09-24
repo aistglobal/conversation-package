@@ -35,7 +35,7 @@ class GroupMessage extends Model
 
     public function scopeByGroup(Builder $builder, int $group_id): Builder
     {
-        return $builder->where('group_id', $group_id);
+        return $builder->where('group_id', $group_id)->orderBy('id', 'desc');
     }
 
     public function scopeLastMessage(Builder $builder, int $group_id): Builder
