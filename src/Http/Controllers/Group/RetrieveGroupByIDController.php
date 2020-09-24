@@ -19,6 +19,7 @@ class RetrieveGroupByIDController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
+
     public function __invoke(Request $request, int $group_id): JsonResource
     {
         $group = $this->groupRepository->findOneByID($group_id);
