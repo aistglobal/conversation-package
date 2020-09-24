@@ -59,5 +59,4 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
     {
 
     }
-
 }
