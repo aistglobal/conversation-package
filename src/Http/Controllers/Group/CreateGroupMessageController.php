@@ -36,8 +36,13 @@ class CreateGroupMessageController extends Controller
 
         $message = $this->groupRepository->createGroupMessage($data);
 
+        $group = $this->groupRepository->findOneByID($group_id);
+
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
-        event(new MemberGroupMessageCreatedEvent($message, $request->user()->id));
+
+        $group->members->each(function ($member) use($message) {
+            event(new MemberGroupMessageCreatedEvent($message, $member->id));
+        });
 
         return GroupMessageResource::make($message);
     }

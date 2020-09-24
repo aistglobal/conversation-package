@@ -15,12 +15,12 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
     /**
      * @var int
      */
-    private $auth_user_id;
+    private $member_id;
 
-    public function __construct(GroupMessage $groupMessage, int $auth_user_id)
+    public function __construct(GroupMessage $groupMessage, int $member_id)
     {
         $this->groupMessage = $groupMessage;
-        $this->auth_user_id = $auth_user_id;
+        $this->member_id = $member_id;
     }
 
     public function broadcastOn()
@@ -30,7 +30,7 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'user_new_message_' . $this->checkAuthMember();
+        return 'user_new_message_' . $this->member_id;
     }
 
     public function broadcastWith()
@@ -38,17 +38,6 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
         return [
             'id' => $this->groupMessage->id
         ];
-    }
-
-    public function checkAuthMember(): ?int
-    {
-        $member_ids = $this->groupMessage->group->members->pluck('id')->toArray();
-
-        if (in_array($this->auth_user_id, $member_ids)) {
-            return $this->auth_user_id;
-        }
-
-        return null;
     }
 
 }
