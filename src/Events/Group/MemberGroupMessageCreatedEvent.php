@@ -50,4 +50,5 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 
         return null;
     }
+
 }
