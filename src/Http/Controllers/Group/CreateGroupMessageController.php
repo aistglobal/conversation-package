@@ -55,4 +55,5 @@ class CreateGroupMessageController extends Controller
             throw new UnauthorisedAPIException('Unauthorised');
         }
     }
+
 }
