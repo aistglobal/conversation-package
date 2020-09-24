@@ -44,19 +44,15 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
         ];
     }
 
+
     public function checkAuthMember(): ?int
     {
-        $member_ids = $members = $this->groupMessage->group->members->pluck('id')->toArray();
+        $member_ids = $this->groupMessage->group->members->pluck('id')->toArray();
 
         if (in_array($this->auth_user_id, $member_ids)) {
-            return $this->auth_user_id;
+            return $this->groupMessage->group->id;
         }
 
         return null;
-    }
-
-    public function getAuthor()
-    {
-
     }
 }
