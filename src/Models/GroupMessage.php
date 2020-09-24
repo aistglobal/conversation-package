@@ -18,6 +18,10 @@ class GroupMessage extends Model
         'file_name',
     ];
 
+    protected $dates = [
+        'created_at'
+    ];
+
     public function getCreatedAtAttribute($date)
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d H:i:s');

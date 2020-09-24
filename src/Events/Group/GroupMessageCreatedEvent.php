@@ -36,9 +36,11 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'group_message_id' => $this->groupMessage->id,
-            'group_message_text' => $this->groupMessage->text,
+            'id' => $this->groupMessage->id,
+            'text' => $this->groupMessage->text,
             'group_id' => $this->groupMessage->group_id,
+            'author' => $this->groupMessage->author,
+            'created_at' => $this->groupMessage->created_at
         ];
     }
 
@@ -52,4 +54,10 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
 
         return null;
     }
+
+    public function getAuthor()
+    {
+
+    }
+
 }
