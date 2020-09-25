@@ -38,18 +38,6 @@ class Group extends Model
             ->addSelect(['last_message_id' => GroupMessage::select(['id'])
                 ->whereColumn('group_id', 'groups.id')
                 ->latest()
-                ->take(1)])
-            ->addSelect(['last_message_text' => GroupMessage::select(['text'])
-                ->whereColumn('group_id', 'groups.id')
-                ->latest()
-                ->take(1)])
-            ->addSelect(['last_message_created_at' => GroupMessage::select(['created_at'])
-                ->whereColumn('group_id', 'groups.id')
-                ->latest()
-                ->take(1)])
-            ->addSelect(['last_message_file_name' => GroupMessage::select(['file_name'])
-                ->whereColumn('group_id', 'groups.id')
-                ->latest()
                 ->take(1)]);
     }
 

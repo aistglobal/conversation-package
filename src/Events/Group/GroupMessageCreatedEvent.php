@@ -2,6 +2,7 @@
 
 namespace Aistglobal\Conversation\Events\Group;
 
+use Aistglobal\Conversation\Http\Resources\GroupMessageFileResource;
 use Aistglobal\Conversation\Models\GroupMessage;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -40,8 +41,9 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
             'text' => $this->groupMessage->text,
             'group_id' => $this->groupMessage->group_id,
             'author' => $this->groupMessage->author,
-            'file' => $this->groupMessage->file_name ? config('conversation.AWS_URL') . '/' . $this->groupMessage->file_name : null,
+            'files' => $this->getFiles(),
             'created_at' => $this->groupMessage->created_at
+
         ];
     }
 
@@ -54,5 +56,10 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
         }
 
         return null;
+    }
+
+    public function getFiles()
+    {
+        return GroupMessageFileResource::collection($this->groupMessage->files);
     }
 }

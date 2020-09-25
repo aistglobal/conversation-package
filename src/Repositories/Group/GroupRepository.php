@@ -23,6 +23,8 @@ interface GroupRepository
 
     public function createGroupMessage(array $data): GroupMessage;
 
+    public function retrieveGroupMessageByID(int $group_message_id): GroupMessage;
+
     public function retrieveMembersByGroupID(int $group_id): Collection;
 
     public function retrieveMessagesByGroupID(int $group_id, int $page = 1, int $per_page = 50): LengthAwarePaginator;

@@ -3,6 +3,7 @@
 
 namespace Aistglobal\Conversation\Http\Resources;
 
+use Aistglobal\Conversation\Models\GroupMessage;
 use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -31,15 +32,22 @@ class GroupResource extends JsonResource
     public function lastMessage(): ?array
     {
         if ($this->last_message_id) {
+            $message = $this->groupRepository->retrieveGroupMessageByID($this->last_message_id);
+
             return [
-                'id' => $this->last_message_id,
-                'text' => $this->last_message_text,
-                'file' => $this->last_message_file_name ? config('conversation.AWS_URL') . '/' . $this->last_message_file_name : null,
-                'created_at' => $this->last_message_created_at,
+                'id' => $message->id,
+                'text' => $message->text,
+                'files' => $this->getFiles($message),
+                'created_at' => $message->created_at,
             ];
         }
 
         return null;
+    }
+
+    public function getFiles(GroupMessage $message): JsonResource
+    {
+        return GroupMessageFileResource::collection($message->files);
     }
 }
 

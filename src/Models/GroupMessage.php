@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class GroupMessage extends Model
 {
@@ -45,5 +46,10 @@ class GroupMessage extends Model
     public function scopeLastMessage(Builder $builder, int $group_id): Builder
     {
         return $builder->where('group_id', $group_id)->orderBy('id', 'desc');
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(GroupMessageFile::class, 'group_message_id');
     }
 }

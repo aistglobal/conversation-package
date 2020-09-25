@@ -16,14 +16,14 @@ class GroupMessageResource extends JsonResource
             'author_id' => $this->author_id,
             'text' => $this->text,
             'created_at' => $this->created_at,
-            'file' => $this->file_name ? config('conversation.AWS_URL') . '/' . $this->file_name : null,
             'author' => $this->author,
+            'files' => $this->recourseForFiles()
         ];
     }
 
 
-    public function recourseForGroup()
+    public function recourseForFiles()
     {
-        return GroupResource::make($this->group);
+        return GroupMessageFileResource::collection($this->files);
     }
 }

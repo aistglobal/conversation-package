@@ -78,4 +78,13 @@ class EloquentGroupRepository implements GroupRepository
     {
         return GroupMessage::byGroup($group_id)->paginate($per_page, ['*'], 'page', $page);
     }
+
+    public function retrieveGroupMessageByID(int $group_message_id): GroupMessage
+    {
+        $message = GroupMessage::find($group_message_id);
+
+        throw_if(is_null($message), NotFoundAPIException::class);
+
+        return $message;
+    }
 }
