@@ -38,9 +38,14 @@ class GroupMessage extends Model
         return $this->belongsTo(Group::class, 'group_id');
     }
 
-    public function scopeByGroup(Builder $builder, int $group_id): Builder
+    public function scopeByGroup(Builder $builder, int $group_id, ?int $message_id): Builder
     {
-        return $builder->where('group_id', $group_id)->orderBy('id', 'desc');
+        return $builder->when($message_id, function ($query) use ($message_id) {
+            return $query->where('id', '<', $message_id);
+        })
+            ->latest()
+            ->where('group_id', $group_id)
+            ->take(50);
     }
 
     public function scopeLastMessage(Builder $builder, int $group_id): Builder

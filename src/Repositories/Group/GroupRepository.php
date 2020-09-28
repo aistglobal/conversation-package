@@ -27,7 +27,7 @@ interface GroupRepository
 
     public function retrieveMembersByGroupID(int $group_id): Collection;
 
-    public function retrieveMessagesByGroupID(int $group_id, int $page = 1, int $per_page = 50): LengthAwarePaginator;
+    public function retrieveMessagesByGroupID(int $group_id, ?int $message_id): Collection;
 
     public function retrieveGroupsBYMemberID(int $member_id): Collection;
 }

@@ -7,7 +7,7 @@ use Aistglobal\Conversation\Exceptions\API\NotFoundAPIException;
 use Aistglobal\Conversation\Models\Group;
 use Aistglobal\Conversation\Models\GroupMember;
 use Aistglobal\Conversation\Models\GroupMessage;
-use Illuminate\Pagination\LengthAwarePaginator;
+use http\Env\Request;
 use Illuminate\Support\Collection;
 
 class EloquentGroupRepository implements GroupRepository
@@ -74,9 +74,9 @@ class EloquentGroupRepository implements GroupRepository
         return Group::findByIds($group_ids)->get();
     }
 
-    public function retrieveMessagesByGroupID(int $group_id, int $page = 1, int $per_page = 50): LengthAwarePaginator
+    public function retrieveMessagesByGroupID(int $group_id, ?int $message_id): Collection
     {
-        return GroupMessage::byGroup($group_id)->paginate($per_page, ['*'], 'page', $page);
+        return GroupMessage::byGroup($group_id, $message_id)->get();
     }
 
     public function retrieveGroupMessageByID(int $group_message_id): GroupMessage
