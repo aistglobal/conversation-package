@@ -27,7 +27,7 @@ class RetrieveGroupMessageController extends Controller
 
         $group_messages = $this->groupRepository->retrieveMessagesByGroupID($group_id, $request->message_id);
 
-        return GroupMessageResource::collection($group_messages->reverse());
+        return GroupMessageResource::collection($group_messages);
     }
 
     public function checkIfGroupMember(int $group_id, int $auth_user_id)
