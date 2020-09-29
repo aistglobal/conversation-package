@@ -43,7 +43,7 @@ class GroupMessage extends Model
         return $builder->when($message_id, function ($query) use ($message_id) {
             return $query->where('id', '<', $message_id);
         })
-            ->latest()
+            ->orderByDesc('id')
             ->where('group_id', $group_id)
             ->take(50);
     }
