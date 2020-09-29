@@ -10,7 +10,7 @@ class CreateGroupMessageRequest extends FormRequest
     {
         return [
             'text' => [
-                'required_without:file_name',
+                'required_without:files',
             ],
         ];
     }
