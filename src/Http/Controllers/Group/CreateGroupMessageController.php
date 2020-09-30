@@ -43,7 +43,7 @@ class CreateGroupMessageController extends Controller
             collect($request->file('files'))->each(function ($file) use ($group, $message) {
 
                 $file_name = $file->getClientOriginalName();
-                $file_path = $file->store("public/storage/groups/{$group->id}");
+                $file_path = $file->store("public/groups/{$group->id}");
 
                 $message->files()->create([
                     'file' => $file_name,
