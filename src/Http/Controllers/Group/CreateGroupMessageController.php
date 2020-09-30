@@ -10,7 +10,6 @@ use Aistglobal\Conversation\Http\Resources\GroupMessageResource;
 use Aistglobal\Conversation\Repositories\Group\GroupRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
 
 
 class CreateGroupMessageController extends Controller
