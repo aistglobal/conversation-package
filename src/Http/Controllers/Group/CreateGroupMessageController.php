@@ -42,14 +42,16 @@ class CreateGroupMessageController extends Controller
         if ($request->has('files')) {
             collect($request->file('files'))->each(function ($file) use ($group, $message) {
 
-                $saved_file = $this->saveFile($file, "groups/{$group->id}");
+                $file_name = $file->getClientOriginalName();
+                $file_path = $file->store("public/groups/{$group->id}");
 
                 $message->files()->create([
-                    'file' => $saved_file['file_name'],
-                    'file_path' => $saved_file['file_path'],
+                    'file' => $file_name,
+                    'file_path' => str_replace('public/', '', $file_path),
                 ]);
             });
         }
+
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
 
         $group->members->each(function ($member) use ($message) {
@@ -67,30 +69,5 @@ class CreateGroupMessageController extends Controller
             throw new UnauthorisedAPIException('Unauthorised');
         }
     }
-
-    public function saveFile($file, string $path): array
-    {
-        if ($file) {
-            try {
-                $fileName = $file->getClientOriginalName();
-
-                $s3 = Storage::disk('public');
-                $filePath = '/' . $path . '/' . $fileName;
-
-                $contest = file_get_contents($file);
-                $s3->put($filePath, $contest, 'public');
-
-                return [
-                    'file_name' => $fileName,
-                    'file_path' => $filePath
-                ];
-
-            } catch (\Exception $e) {
-                dd($e->getMessage());
-            }
-
-        }
-    }
-
 
 }

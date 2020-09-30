@@ -13,7 +13,7 @@ class GroupMessageFileResource extends JsonResource
         return [
             'id' => $this->id,
             'file_name' => $this->file,
-            'file' => $this->file_path ? config('conversation.AWS_URL') . '/' . $this->file_path : null,
+            'file' => $this->file_path ? asset("$this->file_path") : null,
         ];
     }
 
