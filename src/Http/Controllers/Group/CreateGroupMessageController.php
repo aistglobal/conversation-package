@@ -21,6 +21,7 @@ class CreateGroupMessageController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
+
     public function __invoke(CreateGroupMessageRequest $request, int $group_id): JsonResource
     {
         $data = $request->only([
