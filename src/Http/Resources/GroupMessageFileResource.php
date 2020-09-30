@@ -16,5 +16,4 @@ class GroupMessageFileResource extends JsonResource
             'file' => $this->file_path ? asset("storage/{$this->file_path}") : null,
         ];
     }
-
 }
