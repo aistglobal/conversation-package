@@ -18,6 +18,7 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
      */
     private $auth_user_id;
 
+
     public function __construct(GroupMessage $groupMessage, int $auth_user_id)
     {
         $this->groupMessage = $groupMessage;
