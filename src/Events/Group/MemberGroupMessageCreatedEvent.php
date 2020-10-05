@@ -2,7 +2,9 @@
 
 namespace Aistglobal\Conversation\Events\Group;
 
+use Aistglobal\Conversation\Http\Resources\GroupResource;
 use Aistglobal\Conversation\Models\GroupMessage;
+use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -12,15 +14,17 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
     use Dispatchable, SerializesModels;
 
     public $groupMessage;
-    /**
-     * @var int
-     */
+
     private $member_id;
+
+    private $groupRepository;
 
     public function __construct(GroupMessage $groupMessage, int $member_id)
     {
         $this->groupMessage = $groupMessage;
         $this->member_id = $member_id;
+
+        $this->groupRepository = new EloquentGroupRepository();
     }
 
     public function broadcastOn()
@@ -35,9 +39,9 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return [
-            'id' => $this->groupMessage->id
-        ];
+        $group = $this->groupRepository->findOneByID($this->groupMessage->group_id);
+
+        return  GroupResource::make($group)->toArray($group);
     }
 
 }
