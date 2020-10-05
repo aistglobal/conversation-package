@@ -21,7 +21,6 @@ class CreateGroupMessageController extends Controller
         $this->groupRepository = $groupRepository;
     }
 
-
     public function __invoke(CreateGroupMessageRequest $request, int $group_id): JsonResource
     {
         $data = $request->only([
@@ -60,7 +59,7 @@ class CreateGroupMessageController extends Controller
 
         return GroupMessageResource::make($message);
     }
-
+    
     public function checkIfGroupMember(int $group_id, int $auth_user_id)
     {
         $members = $this->groupRepository->retrieveMembersByGroupID($group_id)->pluck('id')->toArray();
