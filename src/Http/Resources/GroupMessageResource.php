@@ -4,10 +4,22 @@
 namespace Aistglobal\Conversation\Http\Resources;
 
 
+use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class GroupMessageResource extends JsonResource
 {
+    private $groupRepository;
+
+    public function __construct($resource)
+    {
+        parent::__construct($resource);
+
+        $this->groupRepository = new EloquentGroupRepository();
+
+    }
+
+
     public function toArray($request): array
     {
         return [
@@ -17,7 +29,8 @@ class GroupMessageResource extends JsonResource
             'text' => $this->text,
             'created_at' => $this->created_at,
             'author' => $this->author,
-            'files' => $this->recourseForFiles()
+            'files' => $this->recourseForFiles(),
+
         ];
     }
 

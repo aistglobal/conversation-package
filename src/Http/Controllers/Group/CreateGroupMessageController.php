@@ -23,13 +23,15 @@ class CreateGroupMessageController extends Controller
 
     public function __invoke(CreateGroupMessageRequest $request, int $group_id): JsonResource
     {
+        $member_id = $request->user()->id;
+
         $data = $request->only([
                 'text',
                 'file_name',
                 'peer_id',
             ]) + [
                 'group_id' => $group_id,
-                'author_id' => $request->user()->id,
+                'author_id' => $member_id,
             ];
 
         $this->checkIfGroupMember($group_id, $request->user()->id);
@@ -37,6 +39,10 @@ class CreateGroupMessageController extends Controller
         $message = $this->groupRepository->createGroupMessage($data);
 
         $group = $this->groupRepository->findOneByID($group_id);
+
+        $group->update([
+            'message_count' => $group->message_count + 1
+        ]);
 
         if ($request->has('files')) {
             collect($request->file('files'))->each(function ($file) use ($group, $message) {
@@ -53,13 +59,19 @@ class CreateGroupMessageController extends Controller
 
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
 
-        $group->members->each(function ($member) use ($message) {
+        $group->members->each(function ($member) use ($message, $member_id) {
+
+            $this->groupRepository->markAsReadGroupMessage([
+                'group_message_id' => $message->id,
+                'member_id' => $member_id
+            ]);
+
             event(new MemberGroupMessageCreatedEvent($message, $member->id));
         });
 
         return GroupMessageResource::make($message);
     }
-    
+
     public function checkIfGroupMember(int $group_id, int $auth_user_id)
     {
         $members = $this->groupRepository->retrieveMembersByGroupID($group_id)->pluck('id')->toArray();

@@ -57,4 +57,9 @@ class GroupMessage extends Model
     {
         return $this->hasMany(GroupMessageFile::class, 'group_message_id');
     }
+
+    public function read_messages(): HasMany
+    {
+        return $this->hasMany(ReadGroupGroupMessage::class);
+    }
 }

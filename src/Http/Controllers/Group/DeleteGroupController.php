@@ -23,7 +23,7 @@ class DeleteGroupController extends Controller
     {
         $group = $this->groupRepository->findOneByID($group_id);
 
-        if($group->creator_id !== $request->user()->id){
+        if ($group->creator_id !== $request->user()->id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
@@ -32,7 +32,7 @@ class DeleteGroupController extends Controller
         $this->groupRepository->delete($group->id);
 
         return JsonResource::make([
-           'deleted' => true
+            'deleted' => true
         ]);
     }
 }

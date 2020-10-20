@@ -5,6 +5,7 @@ use Aistglobal\Conversation\Http\Controllers\Group\CreateGroupController;
 use Aistglobal\Conversation\Http\Controllers\Group\CreateGroupMessageController;
 use Aistglobal\Conversation\Http\Controllers\Group\DeleteGroupController;
 use Aistglobal\Conversation\Http\Controllers\Group\DeleteMemberController;
+use Aistglobal\Conversation\Http\Controllers\Group\MarkAsReadController;
 use Aistglobal\Conversation\Http\Controllers\Group\RetrieveGroupByIDController;
 use Aistglobal\Conversation\Http\Controllers\Group\RetrieveGroupByMemberIDController;
 use Aistglobal\Conversation\Http\Controllers\Group\RetrieveGroupMessageController;
@@ -58,6 +59,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
             // Messages
             Route::post('/{group_id}/messages', CreateGroupMessageController::class);
             Route::get('/{group_id}/messages', RetrieveGroupMessageController::class);
+
+            //MARK AS READ
+            Route::put('/{group_id}/messages/{message_id}', MarkAsReadController::class);
+
         });
 
     });

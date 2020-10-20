@@ -44,7 +44,6 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
             'author' => $this->groupMessage->author,
             'files' => $this->getFiles(),
             'created_at' => $this->groupMessage->created_at
-
         ];
     }
 

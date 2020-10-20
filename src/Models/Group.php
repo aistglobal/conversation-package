@@ -15,6 +15,7 @@ class Group extends Model
     protected $fillable = [
         'creator_id',
         'name',
+        'message_count',
     ];
 
     public function creator(): BelongsTo

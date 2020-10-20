@@ -7,7 +7,7 @@ use Aistglobal\Conversation\Exceptions\API\NotFoundAPIException;
 use Aistglobal\Conversation\Models\Group;
 use Aistglobal\Conversation\Models\GroupMember;
 use Aistglobal\Conversation\Models\GroupMessage;
-use http\Env\Request;
+use Aistglobal\Conversation\Models\ReadGroupGroupMessage;
 use Illuminate\Support\Collection;
 
 class EloquentGroupRepository implements GroupRepository
@@ -86,5 +86,15 @@ class EloquentGroupRepository implements GroupRepository
         throw_if(is_null($message), NotFoundAPIException::class);
 
         return $message;
+    }
+
+    public function markAsReadGroupMessage(array $data): ReadGroupGroupMessage
+    {
+        return ReadGroupGroupMessage::firstOrcreate($data);
+    }
+
+    public function retrieveReadMessageByGroupAndMember(int $group_id, int $member_id): Collection
+    {
+        return ReadGroupGroupMessage::byGroupAndMember($group_id, $member_id)->get();
     }
 }

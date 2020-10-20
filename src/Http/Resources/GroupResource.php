@@ -6,6 +6,7 @@ namespace Aistglobal\Conversation\Http\Resources;
 use Aistglobal\Conversation\Models\GroupMessage;
 use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class GroupResource extends JsonResource
 {
@@ -25,7 +26,8 @@ class GroupResource extends JsonResource
             'name' => $this->name,
             'creator_id' => $this->creator_id,
             'creator' => $this->creator,
-            'last_message' => $this->lastMessage()
+            'last_message' => $this->lastMessage(),
+            'unread_message_count' => $this->unreadMessageCount($request)
         ];
     }
 
@@ -43,6 +45,14 @@ class GroupResource extends JsonResource
         }
 
         return null;
+    }
+
+    public function unreadMessageCount($request): int
+    {
+        $read_messages = $this->groupRepository
+            ->retrieveReadMessageByGroupAndMember($this->id, Auth::user()->id)->count();
+
+        return $this->message_count - $read_messages;
     }
 
     public function getFiles(GroupMessage $message): JsonResource
