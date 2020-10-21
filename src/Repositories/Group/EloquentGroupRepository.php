@@ -97,4 +97,5 @@ class EloquentGroupRepository implements GroupRepository
     {
         return ReadGroupGroupMessage::byGroupAndMember($group_id, $member_id)->first();
     }
+
 }
