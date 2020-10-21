@@ -17,6 +17,7 @@ class ReadGroupGroupMessage extends Model
         'member_id',
     ];
 
+
     protected $dates = [
         'created_at'
     ];
