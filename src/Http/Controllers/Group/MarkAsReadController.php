@@ -28,9 +28,6 @@ class MarkAsReadController extends Controller
 
         $this->markAsRead($group_id, $message_id, $member_id);
 
-
-
-
         return JsonResource::make([
             'mark_as_read' => true
         ]);

@@ -53,9 +53,10 @@ class GroupResource extends JsonResource
 
         $last_message = $this->messages->last();
 
+
         if ($last_message) {
             if ($last_read_message) {
-                return $last_message->id - $last_read_message->id;
+                return $last_message->id - $last_read_message->group_message_id;
             } else {
                 return $last_message->id;
             }
