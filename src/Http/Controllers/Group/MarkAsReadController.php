@@ -57,4 +57,5 @@ class MarkAsReadController extends Controller
             ]);
         }
     }
+
 }
