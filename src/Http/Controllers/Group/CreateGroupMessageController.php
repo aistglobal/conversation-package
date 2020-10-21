@@ -59,12 +59,12 @@ class CreateGroupMessageController extends Controller
 
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
 
-        $group->members->each(function ($member) use ($message, $member_id) {
+        $this->groupRepository->markAsReadGroupMessage([
+            'group_message_id' => $message->id,
+            'member_id' => $member_id
+        ]);
 
-            $this->groupRepository->markAsReadGroupMessage([
-                'group_message_id' => $message->id,
-                'member_id' => $member_id
-            ]);
+        $group->members->each(function ($member) use ($message, $member_id) {
 
             event(new MemberGroupMessageCreatedEvent($message, $member->id));
         });

@@ -36,17 +36,16 @@ class MarkAsReadController extends Controller
 
         $unread_messages = $group->messages()
             ->when($start_message_id, function ($query) use ($start_message_id) {
-            return $query->where('group_messages.id', '>', $start_message_id);
-        })
+                return $query->where('group_messages.id', '>', $start_message_id);
+            })
             ->where('group_messages.id', '<=', $message_id)->get();
 
-        $unread_messages->each(function ($unread_message) use ($member_id){
+        $unread_messages->each(function ($unread_message) use ($member_id) {
             $this->groupRepository->markAsReadGroupMessage([
                 'group_message_id' => $unread_message->id,
                 'member_id' => $member_id
             ]);
         });
-
 
         return JsonResource::make([
             'mark_as_read' => true

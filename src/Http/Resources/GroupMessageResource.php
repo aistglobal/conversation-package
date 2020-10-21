@@ -19,7 +19,6 @@ class GroupMessageResource extends JsonResource
 
     }
 
-
     public function toArray($request): array
     {
         return [
