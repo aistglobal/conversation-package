@@ -65,7 +65,6 @@ class CreateGroupMessageController extends Controller
         ]);
 
         $group->members->each(function ($member) use ($message) {
-
             event(new MemberGroupMessageCreatedEvent($message, $member->id));
         });
 

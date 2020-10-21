@@ -41,7 +41,7 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
     {
         $group = $this->groupRepository->findOneByID($this->groupMessage->group_id);
 
-        return  GroupResource::make($group)->toArray($group);
+        return GroupResource::make($group)->toArray($group);
     }
 
 }
