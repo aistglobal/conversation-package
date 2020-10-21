@@ -56,6 +56,7 @@ class GroupResource extends JsonResource
         return $this->message_count - $read_messages;
     }
 
+
     public function getFiles(GroupMessage $message): JsonResource
     {
         return GroupMessageFileResource::collection($message->files);
