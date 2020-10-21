@@ -47,6 +47,7 @@ class MarkAsReadController extends Controller
             ]);
         });
 
+
         return JsonResource::make([
             'mark_as_read' => true
         ]);
