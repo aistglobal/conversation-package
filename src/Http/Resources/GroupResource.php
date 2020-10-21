@@ -27,8 +27,7 @@ class GroupResource extends JsonResource
             'creator_id' => $this->creator_id,
             'creator' => $this->creator,
             'last_message' => $this->lastMessage(),
-            'unread_message_count' => $this->unreadMessageCount(),
-            'user_id' => Auth::user()->id
+            'unread_message_count' => $this->unreadMessageCount()
         ];
     }
 
@@ -51,7 +50,7 @@ class GroupResource extends JsonResource
     public function unreadMessageCount(): int
     {
         $read_messages = $this->groupRepository
-            ->retrieveReadMessageByGroupAndMember($this->id, Auth::user()->id)->count();
+            ->retrieveReadMessageByGroupAndMember($this->id, $this->auth_user_id ?? auth()->id())->count();
 
         return $this->message_count - $read_messages;
     }
