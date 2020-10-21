@@ -26,26 +26,10 @@ class MarkAsReadController extends Controller
 
         $this->checkIfGroupMember($group->id, $member_id);
 
-        $read_messages = $this->groupRepository->retrieveReadMessageByGroupAndMember($group_id, $member_id)->last();
+        $this->markAsRead($group_id, $message_id, $member_id);
 
-        $start_message_id = null;
 
-        if ($read_messages) {
-            $start_message_id = $read_messages->group_message_id;
-        }
 
-        $unread_messages = $group->messages()
-            ->when($start_message_id, function ($query) use ($start_message_id) {
-                return $query->where('group_messages.id', '>', $start_message_id);
-            })
-            ->where('group_messages.id', '<=', $message_id)->get();
-
-        $unread_messages->each(function ($unread_message) use ($member_id) {
-            $this->groupRepository->markAsReadGroupMessage([
-                'group_message_id' => $unread_message->id,
-                'member_id' => $member_id
-            ]);
-        });
 
         return JsonResource::make([
             'mark_as_read' => true
@@ -58,6 +42,22 @@ class MarkAsReadController extends Controller
 
         if (!in_array($auth_user_id, $members)) {
             throw new UnauthorisedAPIException('Unauthorised');
+        }
+    }
+
+    public function markAsRead(int $group_id, int $message_id, int $member_id): void
+    {
+        $read_message = $this->groupRepository->retrieveReadMessageByGroupAndMember($group_id, $member_id);
+
+        if ($read_message) {
+            $read_message->update([
+                'group_message_id' => $message_id
+            ]);
+        } else {
+            $this->groupRepository->markAsReadGroupMessage([
+                'group_message_id' => $message_id,
+                'member_id' => $member_id
+            ]);
         }
     }
 }

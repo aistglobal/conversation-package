@@ -6,7 +6,6 @@ namespace Aistglobal\Conversation\Http\Resources;
 use Aistglobal\Conversation\Models\GroupMessage;
 use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class GroupResource extends JsonResource
 {
@@ -50,11 +49,14 @@ class GroupResource extends JsonResource
     public function unreadMessageCount(): int
     {
         $read_messages = $this->groupRepository
-            ->retrieveReadMessageByGroupAndMember($this->id, $this->auth_user_id ?? auth()->id())->count();
+            ->retrieveReadMessageByGroupAndMember($this->id, $this->auth_user_id ?? auth()->id());
 
-        return $this->message_count - $read_messages;
+        if(!$this->last_message_id){
+            $this->last_message_id = 0;
+        }
+
+        return $read_messages ? $this->last_message_id - $read_messages->group_message_id : $this->last_message_id;
     }
-
 
     public function getFiles(GroupMessage $message): JsonResource
     {

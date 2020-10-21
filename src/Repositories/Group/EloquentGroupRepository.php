@@ -93,8 +93,8 @@ class EloquentGroupRepository implements GroupRepository
         return ReadGroupGroupMessage::firstOrcreate($data);
     }
 
-    public function retrieveReadMessageByGroupAndMember(int $group_id, int $member_id): Collection
+    public function retrieveReadMessageByGroupAndMember(int $group_id, int $member_id): ?ReadGroupGroupMessage
     {
-        return ReadGroupGroupMessage::byGroupAndMember($group_id, $member_id)->get();
+        return ReadGroupGroupMessage::byGroupAndMember($group_id, $member_id)->first();
     }
 }

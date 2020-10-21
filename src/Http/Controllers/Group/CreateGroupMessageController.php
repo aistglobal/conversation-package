@@ -38,6 +38,8 @@ class CreateGroupMessageController extends Controller
 
         $message = $this->groupRepository->createGroupMessage($data);
 
+        $this->markAsRead($group_id, $message->id, $member_id);
+
         $group = $this->groupRepository->findOneByID($group_id);
 
         $group->update([
@@ -59,10 +61,6 @@ class CreateGroupMessageController extends Controller
 
         event(new GroupMessageCreatedEvent($message, $request->user()->id));
 
-        $this->groupRepository->markAsReadGroupMessage([
-            'group_message_id' => $message->id,
-            'member_id' => $member_id
-        ]);
 
         $group->members->each(function ($member) use ($message) {
             event(new MemberGroupMessageCreatedEvent($message, $member->id));
@@ -77,6 +75,22 @@ class CreateGroupMessageController extends Controller
 
         if (!in_array($auth_user_id, $members)) {
             throw new UnauthorisedAPIException('Unauthorised');
+        }
+    }
+
+    public function markAsRead(int $group_id, int $message_id, int $member_id): void
+    {
+        $read_message = $this->groupRepository->retrieveReadMessageByGroupAndMember($group_id, $member_id);
+
+        if ($read_message) {
+            $read_message->update([
+                'group_message_id' => $message_id
+            ]);
+        } else {
+            $this->groupRepository->markAsReadGroupMessage([
+                'group_message_id' => $message_id,
+                'member_id' => $member_id
+            ]);
         }
     }
 }
