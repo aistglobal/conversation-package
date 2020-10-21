@@ -48,14 +48,20 @@ class GroupResource extends JsonResource
 
     public function unreadMessageCount(): int
     {
-        $read_messages = $this->groupRepository
+        $last_read_message = $this->groupRepository
             ->retrieveReadMessageByGroupAndMember($this->id, $this->auth_user_id ?? auth()->id());
 
-        if(!$this->last_message_id){
-            $this->last_message_id = 0;
-        }
+        $last_message = $this->messages->last();
 
-        return $read_messages ? $this->last_message_id - $read_messages->group_message_id : $this->last_message_id;
+        if ($last_message) {
+            if ($last_read_message) {
+                return $last_message->id - $last_read_message->id;
+            } else {
+                return $last_message->id;
+            }
+        } else {
+            return 0;
+        }
     }
 
     public function getFiles(GroupMessage $message): JsonResource
