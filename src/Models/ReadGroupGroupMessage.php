@@ -39,5 +39,4 @@ class ReadGroupGroupMessage extends Model
             });
         });
     }
-
 }
