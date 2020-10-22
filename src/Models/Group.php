@@ -23,7 +23,6 @@ class Group extends Model
         return $this->belongsTo(config('conversation.users'), 'creator_id');
     }
 
-
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(config('conversation.users'), 'group_member', 'group_id', 'member_id');
