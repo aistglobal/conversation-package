@@ -23,6 +23,7 @@ class Group extends Model
         return $this->belongsTo(config('conversation.users'), 'creator_id');
     }
 
+
     public function members(): BelongsToMany
     {
         return $this->belongsToMany(config('conversation.users'), 'group_member', 'group_id', 'member_id');
@@ -39,7 +40,7 @@ class Group extends Model
             ->addSelect(['last_message_id' => GroupMessage::select(['id'])
                 ->whereColumn('group_id', 'groups.id')
                 ->latest()
-                ->take(1)]);
+                ->take(1)])->orderByDesc('last_message_id');
     }
 
 }
