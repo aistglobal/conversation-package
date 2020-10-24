@@ -51,17 +51,14 @@ class GroupResource extends JsonResource
         $last_read_message = $this->groupRepository
             ->retrieveReadMessageByGroupAndMember($this->id, $this->auth_user_id ?? auth()->id());
 
-        $last_message = $this->messages->last();
 
+        if ($last_read_message) {
+            return $this->messages->filter(function ($message) use ($last_read_message){
+                return $message->id > $last_read_message->group_message_id;
+            })->count();
 
-        if ($last_message) {
-            if ($last_read_message) {
-                return $last_message->id - $last_read_message->group_message_id;
-            } else {
-                return $last_message->id;
-            }
         } else {
-            return 0;
+            return $this->message_count;
         }
     }
 
