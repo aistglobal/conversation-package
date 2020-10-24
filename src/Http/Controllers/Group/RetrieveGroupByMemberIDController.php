@@ -20,11 +20,17 @@ class RetrieveGroupByMemberIDController extends Controller
 
     public function __invoke(Request $request, int $member_id)
     {
-        if($member_id !== $request->user()->id){
+        if ($member_id !== $request->user()->id) {
             throw new UnauthorisedAPIException('Unauthorised');
         }
 
-        $groups = $this->groupRepository->retrieveGroupsBYMemberID($member_id);
+        $page = 1;
+
+        if ($request->has('page')) {
+            $page = $request->page;
+        }
+
+        $groups = $this->groupRepository->retrieveGroupsBYMemberID($member_id, $page);
 
         return GroupResource::collection($groups);
     }

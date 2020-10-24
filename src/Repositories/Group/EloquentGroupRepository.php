@@ -8,6 +8,7 @@ use Aistglobal\Conversation\Models\Group;
 use Aistglobal\Conversation\Models\GroupMember;
 use Aistglobal\Conversation\Models\GroupMessage;
 use Aistglobal\Conversation\Models\ReadGroupGroupMessage;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 
 class EloquentGroupRepository implements GroupRepository
@@ -67,11 +68,11 @@ class EloquentGroupRepository implements GroupRepository
         return $group->members;
     }
 
-    public function retrieveGroupsBYMemberID(int $member_id): Collection
+    public function retrieveGroupsBYMemberID(int $member_id, int $page = 1, int $per_page = 25): LengthAwarePaginator
     {
         $group_ids = GroupMember::byMember($member_id)->pluck('group_id')->toArray();
 
-        return Group::findByIds($group_ids)->get();
+        return Group::findByIds($group_ids)->paginate($per_page, ['*'], 'page', $page);
     }
 
     public function retrieveMessagesByGroupID(int $group_id, ?int $message_id): Collection
