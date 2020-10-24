@@ -30,6 +30,7 @@ class GroupResource extends JsonResource
         ];
     }
 
+
     public function lastMessage(): ?array
     {
         if ($this->last_message_id) {
