@@ -30,7 +30,13 @@ class RetrieveGroupByMemberIDController extends Controller
             $page = $request->page;
         }
 
-        $groups = $this->groupRepository->retrieveGroupsBYMemberID($member_id, $page);
+        $per_page = 25;
+
+        if ($request->has('per_page')) {
+            $per_page = $request->per_page;
+        }
+
+        $groups = $this->groupRepository->retrieveGroupsBYMemberID($member_id, $page, $per_page);
 
         return GroupResource::collection($groups);
 
