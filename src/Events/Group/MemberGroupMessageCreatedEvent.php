@@ -7,6 +7,7 @@ use Aistglobal\Conversation\Models\GroupMessage;
 use Aistglobal\Conversation\Repositories\Group\EloquentGroupRepository;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Queue\SerializesModels;
 
 class MemberGroupMessageCreatedEvent implements ShouldBroadcast
@@ -43,6 +44,11 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 
         $group->auth_user_id = $this->member_id;
 
-        return GroupResource::make($group)->toArray($group);
+        return $this->retrieveData($group)->toArray($group);
+    }
+
+    protected function retrieveData($group): JsonResource
+    {
+        return GroupResource::make($group);
     }
 }
