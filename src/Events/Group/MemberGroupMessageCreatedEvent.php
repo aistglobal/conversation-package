@@ -51,4 +51,5 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
     {
         return GroupResource::make($group);
     }
+
 }
