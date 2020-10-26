@@ -16,9 +16,9 @@ class MemberGroupMessageCreatedEvent implements ShouldBroadcast
 
     public $groupMessage;
 
-    private $member_id;
+    protected $member_id;
 
-    private $groupRepository;
+    protected $groupRepository;
 
     public function __construct(GroupMessage $groupMessage, int $member_id)
     {
