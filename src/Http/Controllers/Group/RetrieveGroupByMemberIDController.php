@@ -48,5 +48,4 @@ class RetrieveGroupByMemberIDController extends Controller
     {
         return GroupResource::collection($groups);
     }
-
 }
