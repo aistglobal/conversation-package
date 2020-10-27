@@ -6,7 +6,10 @@ use Aistglobal\Conversation\Exceptions\API\UnauthorisedAPIException;
 use Aistglobal\Conversation\Http\Resources\GroupResource;
 use Aistglobal\Conversation\Repositories\Group\GroupRepository;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 
 class RetrieveGroupByMemberIDController extends Controller
@@ -38,6 +41,12 @@ class RetrieveGroupByMemberIDController extends Controller
 
         $groups = $this->groupRepository->retrieveGroupsBYMemberID($member_id, $page, $per_page);
 
+        return $this->retrieveGroups($groups);
+    }
+
+    protected function retrieveGroups($groups)
+    {
         return GroupResource::collection($groups);
     }
+
 }
