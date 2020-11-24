@@ -34,7 +34,6 @@ class GroupMessageResource extends JsonResource
         ];
     }
 
-
     public function recourseForFiles()
     {
         return GroupMessageFileResource::collection($this->files);
