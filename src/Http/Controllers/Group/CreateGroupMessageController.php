@@ -30,6 +30,7 @@ class CreateGroupMessageController extends Controller
                 'text',
                 'file_name',
                 'peer_id',
+                'pinned',
             ]) + [
                 'group_id' => $group_id,
                 'author_id' => $member_id,

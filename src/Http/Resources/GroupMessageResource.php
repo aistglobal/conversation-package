@@ -28,6 +28,7 @@ class GroupMessageResource extends JsonResource
             'text' => $this->text,
             'created_at' => $this->created_at,
             'author' => $this->author,
+            'pinned' => $this->pinned,
             'files' => $this->recourseForFiles(),
 
         ];
