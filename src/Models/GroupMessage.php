@@ -63,4 +63,5 @@ class GroupMessage extends Model
     {
         return $this->hasMany(ReadGroupGroupMessage::class);
     }
+
 }
