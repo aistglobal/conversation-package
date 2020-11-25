@@ -42,6 +42,7 @@ class GroupMessageCreatedEvent implements ShouldBroadcast
             'text' => $this->groupMessage->text,
             'group_id' => $this->groupMessage->group_id,
             'author' => $this->groupMessage->author,
+            'pinned' => $this->groupMessage->pinned,
             'files' => $this->getFiles(),
             'created_at' => $this->groupMessage->created_at
         ];

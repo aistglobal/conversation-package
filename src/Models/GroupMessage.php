@@ -17,6 +17,7 @@ class GroupMessage extends Model
         'author_id',
         'text',
         'file_name',
+        'pinned'
     ];
 
     protected $dates = [
