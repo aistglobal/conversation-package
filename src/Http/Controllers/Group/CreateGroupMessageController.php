@@ -95,8 +95,11 @@ class CreateGroupMessageController extends Controller
         }
     }
 
+
     protected function memberGroupMessageCreatedEvent(GroupMessage $message, int $member_id): void
     {
         event(new MemberGroupMessageCreatedEvent($message, $member_id));
     }
+
+
 }
