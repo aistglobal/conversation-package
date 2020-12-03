@@ -15,7 +15,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CreateGroupMessageController extends Controller
 {
-    private $groupRepository;
+    protected $groupRepository;
 
     public function __construct(GroupRepository $groupRepository)
     {
@@ -52,11 +52,11 @@ class CreateGroupMessageController extends Controller
             collect($request->file('files'))->each(function ($file) use ($group, $message) {
 
                 $file_name = $file->getClientOriginalName();
-                $file_path = $file->store("public/groups/{$group->id}");
+                $file_path = $file->store("groups/{$group->id}");
 
                 $message->files()->create([
                     'file' => $file_name,
-                    'file_path' => str_replace('public/', '', $file_path),
+                    'file_path' => $file_path,
                 ]);
             });
         }
